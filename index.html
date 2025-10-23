@@ -4,7 +4,301 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boreal Sports - Tienda de Ropa</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+    }
+
+    /* Encabezado */
+    header {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 1rem;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 85vh;
+      min-height: 560px;
+      overflow: hidden;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(1200px 700px at 50% 20%, #0b1530 0%, #050913 60%, #03060c 100%);
+    }
+
+    /* Estrellas */
+    .sky {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    /* Bandas de aurora */
+    .aurora.layer {
+      --hue: 170;
+      position: absolute;
+      inset: -20% -10% auto -10%;
+      height: 60%;
+      filter: blur(22px) saturate(140%);
+      opacity: 0.9;
+      background:
+        radial-gradient(120% 100% at 10% 50%, hsla(var(--hue), 95%, 65%, 0.0) 0%, hsla(var(--hue), 95%, 65%, 0.18) 40%, transparent 70%),
+        radial-gradient(120% 100% at 50% 30%, hsla(calc(var(--hue) + 50), 95%, 70%, 0.0) 0%, hsla(calc(var(--hue) + 50), 95%, 70%, 0.18) 45%, transparent 75%),
+        radial-gradient(120% 100% at 90% 60%, hsla(calc(var(--hue) - 30), 90%, 70%, 0.0) 0%, hsla(calc(var(--hue) - 30), 90%, 70%, 0.2) 35%, transparent 70%);
+      mix-blend-mode: screen;
+      animation: drift 16s linear infinite alternate;
+    }
+
+    .aurora.layer.a1 {
+      transform: translateY(-8%) skewX(-8deg);
+      animation-duration: 18s;
+    }
+
+    .aurora.layer.a2 {
+      transform: translateY(0) skewX(-12deg);
+      animation-duration: 22s;
+      opacity: 0.75;
+      filter: blur(26px) saturate(160%);
+    }
+
+    .aurora.layer.a3 {
+      transform: translateY(10%) skewX(-6deg);
+      animation-duration: 26s;
+      opacity: 0.6;
+    }
+
+    @keyframes drift {
+      0% {
+        background-position: 0% 40%, 20% 20%, 80% 50%;
+        transform: translateY(-6%) skewX(-10deg);
+      }
+      50% {
+        background-position: 20% 50%, 40% 30%, 60% 45%;
+        transform: translateY(0%) skewX(-8deg);
+      }
+      100% {
+        background-position: 40% 60%, 60% 35%, 40% 55%;
+        transform: translateY(6%) skewX(-6deg);
+      }
+    }
+
+    /* Montañas */
+    .mountains {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 42%;
+      z-index: 2;
+      filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.6));
+    }
+
+    /* Contenido del hero */
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      color: #e9f0ff;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 1s ease-out both;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 800;
+      background: linear-gradient(90deg, #9efcff, #57ffa3, #6aa6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 18px rgba(64, 196, 255, 0.22));
+    }
+
+    .hero-content p {
+      margin-top: 10px;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: #cfe5ff;
+      opacity: 0.95;
+    }
+
+    /* LED strips */
+    .led-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 6px;
+      z-index: 4;
+      background: linear-gradient(90deg,
+        rgba(0, 255, 209, 0.0),
+        rgba(0, 255, 209, 0.8),
+        rgba(87, 171, 255, 0.95),
+        rgba(0, 255, 209, 0.8),
+        rgba(0, 255, 209, 0.0));
+      box-shadow: 0 0 18px rgba(80, 220, 255, 0.65), 0 0 36px rgba(0, 255, 209, 0.35);
+      animation: pulse 2.6s ease-in-out infinite;
+    }
+
+    .led-strip.top {
+      top: 0;
+    }
+
+    .led-strip.bottom {
+      bottom: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.7;
+        filter: blur(0.6px);
+      }
+      50% {
+        opacity: 1;
+        filter: blur(1px);
+      }
+    }
+
+    /* Estrellas */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: radial-gradient(circle, #e6faff 0%, #9ee8ff 40%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: twinkle 3.5s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.25;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.9;
+        transform: scale(1.8);
+      }
+    }
+
+    /* Animación de entrada */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Parallax */
+    .aurora-hero[data-parallax="true"] .aurora.layer {
+      transition: transform 0.08s linear;
+    }
+
+    .aurora-hero[data-parallax="true"] .mountains {
+      transition: transform 0.1s linear;
+    }
+
+    /* Secciones de categorías */
+    .categoria {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .categoria h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .item {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .item p {
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1a1a1a;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .aurora.layer {
+        filter: blur(20px);
+      }
+      .led-strip {
+        height: 5px;
+      }
+      header {
+        flex-direction: column;
+      }
+      nav ul {
+        margin-top: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- 🔝 Encabezado -->
@@ -20,55 +314,155 @@
     </nav>
   </header>
 
-  <!-- 🏷️ Sección principal -->
-  <section class="hero">
-    <h1>Moda para todos los estilos</h1>
-    <p>Encuentra la mejor ropa deportiva para mujeres, hombres y niños.</p>
+  <!-- 🏔️ Hero con aurora -->
+  <section class="hero aurora-hero">
+    <div class="led-strip top"></div>
+    <div class="sky" id="sky"></div>
+    <div class="aurora layer a1"></div>
+    <div class="aurora layer a2"></div>
+    <div class="aurora layer a3"></div>
+
+    <svg class="mountains" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="mountainShade" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#0b0f1a" />
+          <stop offset="100%" stop-color="#06080f" />
+        </linearGradient>
+      </defs>
+      <path d="M0,300 L180,210 L320,280 L520,140 L720,260 L920,180 L1100,260 L1300,200 L1440,260 L1440,360 L0,360 Z" fill="url(#mountainShade)"></path>
+      <path d="M0,320 L150,260 L300,300 L520,200 L740,300 L980,240 L1200,300 L1440,280 L1440,360 L0,360 Z" fill="#0a0e18" opacity="0.9"></path>
+    </svg>
+
+    <div class="hero-content">
+      <h1>Boreal Sports</h1>
+      <p>Rendimiento bajo las luces del norte</p>
+    </div>
+
+    <div class="led-strip bottom"></div>
   </section>
 
-  <!-- 👚 Mujeres -->
+  <!-- 👚 Secciones -->
   <section id="mujeres" class="categoria">
     <h2>Ropa para Mujeres</h2>
     <div class="grid">
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Chaqueta+Mujer" alt="Chaqueta Mujer">
+        <p>Chaqueta Térmica Mujer - $59.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Pantalones+Mujer" alt="Pantalones Mujer">
+        <p>Pantalones Deportivos Mujer - $39.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Camiseta+Mujer" alt="Camiseta Mujer">
+        <p>Camiseta Running Mujer - $24.99</p>
+      </div>
     </div>
   </section>
 
-  <!-- 🧥 Hombres -->
   <section id="hombres" class="categoria">
     <h2>Ropa para Hombres</h2>
     <div class="grid">
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Chaqueta+Hombre" alt="Chaqueta Hombre">
+        <p>Chaqueta Invernal Hombre - $69.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Pantalones+Hombre" alt="Pantalones Hombre">
+        <p>Pantalones Cargo Hombre - $49.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Camiseta+Hombre" alt="Camiseta Hombre">
+        <p>Camiseta Fitness Hombre - $29.99</p>
+      </div>
     </div>
   </section>
 
-  <!-- 🧒 Niños -->
   <section id="ninos" class="categoria">
     <h2>Ropa para Niños</h2>
     <div class="grid">
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Chaqueta+Niño" alt="Chaqueta Niño">
+        <p>Chaqueta Niño - $34.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Pantalones+Niño" alt="Pantalones Niño">
+        <p>Pantalones Niño - $24.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Camiseta+Niño" alt="Camiseta Niño">
+        <p>Camiseta Niño - $19.99</p>
+      </div>
     </div>
   </section>
 
-  <!-- 🎽 Material -->
   <section id="material" class="categoria">
     <h2>Material Deportivo</h2>
     <div class="grid">
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
-      <div class="item">Imagen + Precio</div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Pelota+Futbol" alt="Pelota Fútbol">
+        <p>Pelota de Fútbol - $19.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Raqueta+Tenis" alt="Raqueta Tenis">
+        <p>Raqueta de Tenis - $79.99</p>
+      </div>
+      <div class="item">
+        <img src="https://via.placeholder.com/250x200?text=Bicicleta" alt="Bicicleta">
+        <p>Bicicleta de Montaña - $299.99</p>
+      </div>
     </div>
   </section>
 
-  <!-- 👣 Pie de página -->
   <footer>
     <p>© 2025 Boreal Sports | Diseñado con 💙 para GitHub Pages</p>
   </footer>
+
+  <script>
+    /* Boreal Sports – estrellas + parallax */
+    const sky = document.getElementById('sky');
+    const STAR_COUNT = 120;
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    function createStars() {
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < STAR_COUNT; i++) {
+        const s = document.createElement('span');
+        s.className = 'star';
+        const x = rand(0, 100);
+        const y = rand(0, 60);
+        const d = rand(2, 5);
+        const delay = rand(-2, 2);
+        s.style.left = `${x}%`;
+        s.style.top = `${y}%`;
+        s.style.animationDuration = `${d}s`;
+        s.style.animationDelay = `${delay}s`;
+        frag.appendChild(s);
+      }
+      sky.appendChild(frag);
+    }
+    createStars();
+
+    const hero = document.querySelector('.aurora-hero');
+    const auroras = document.querySelectorAll('.aurora.layer');
+    const mountains = document.querySelector('.mountains');
+    hero.setAttribute('data-parallax', 'true');
+
+    hero.addEventListener('pointermove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const relX = (e.clientX - rect.left) / rect.width;
+      const relY = (e.clientY - rect.top) / rect.height;
+      auroras.forEach((layer, i) => {
+        const intensity = (i + 1) * 4;
+        const tx = (relX - 0.5) * intensity;
+        const ty = (relY - 0.5) * intensity;
+        layer.style.transform = `translate(${tx}px, ${ty}px) skewX(-8deg)`;
+      });
+      const mtx = (relX - 0.5) * 6;
+      const mty = (relY - 0.5) * 2;
+      mountains.style.transform = `translate(${mtx}px, ${mty}px)`;
+    });
+  </script>
 </body>
 </html>
